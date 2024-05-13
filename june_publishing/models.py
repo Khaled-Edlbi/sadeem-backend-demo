@@ -29,7 +29,7 @@ class Book(models.Model):
     level = models.ForeignKey(Level, related_name='levels', on_delete=models.CASCADE)
     author = models.CharField(max_length=100)
     version = models.CharField()
-    data = models.DateField()
+    date = models.DateField()
     pages_num = models.IntegerField()
     summary = models.TextField()
     views_num = models.IntegerField()
