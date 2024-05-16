@@ -43,7 +43,7 @@ class BookCreateAndUpdateAPIView(
     mixins.UpdateModelMixin,
     generics.GenericAPIView
 ):
-    permission_classes = [AllowAny]
+    # permission_classes = [AllowAny]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 

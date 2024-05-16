@@ -22,8 +22,8 @@ class LevelSerializer(serializers.ModelSerializer):
 
 class BookSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
-    categories = CategorySerializer(read_only=True)
-    levels = LevelSerializer(read_only=True)
+    category = CategorySerializer(read_only=True)
+    level = LevelSerializer(read_only=True)
 
     class Meta:
         model = Book
