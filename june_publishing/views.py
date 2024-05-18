@@ -12,10 +12,16 @@ class PageSetPagination(PageNumberPagination):
     page_size = 12
 
 
-class BooksListAPIView(generics.ListAPIView):
+class BookSeriesRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = BookSeries.objects.all()
+    serializer_class = BookSeriesSerializer
     permission_classes = [AllowAny]
+
+
+class BooksListAPIView(generics.ListAPIView):
     serializer_class = BookSerializer
     pagination_class = PageSetPagination
+    permission_classes = [AllowAny]
 
     def get_queryset(self):
         queryset = Book.objects.all().order_by('-updated')
@@ -30,12 +36,6 @@ class BooksListAPIView(generics.ListAPIView):
         #     )
 
         return queryset
-
-
-class BookRetrieveAPIView(generics.RetrieveAPIView):
-    permission_classes = [AllowAny]
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
 
 
 class BookCreateAndUpdateAPIView(
