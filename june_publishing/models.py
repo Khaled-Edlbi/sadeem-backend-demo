@@ -80,23 +80,14 @@ class Book(models.Model):
     series = models.ForeignKey(BookSeries, related_name='books', on_delete=models.CASCADE)
 
     category = models.ForeignKey(Category, related_name='books', on_delete=models.CASCADE)
-    level = models.ForeignKey(Level, related_name='books', on_delete=models.CASCADE)
-    language = models.ForeignKey(Language, related_name='books', on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, related_name='books', on_delete=models.CASCADE)
-
     title = models.CharField(max_length=100)
-    author = models.CharField(max_length=100)
-    version = models.CharField()
-    date = models.DateField()
-    summary = models.TextField()
-
     pdf_url = models.URLField(max_length=5000)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return f"id: {self.id} | {self.title}"
 
 
 class Banner(models.Model):

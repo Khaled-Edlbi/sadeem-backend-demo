@@ -25,15 +25,22 @@ class BooksListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = Book.objects.all().order_by('-updated')
-        search_query = self.request.query_params.get('q')
 
-        # if search_query:
-        #     queryset = queryset.filter(
-        #         Q(enTitle__icontains=search_query) |
-        #         Q(arTitle__icontains=search_query) |
-        #         Q(enDescription__icontains=search_query) |
-        #         Q(enDescription__icontains=search_query)
-        #     )
+        level_filter = self.request.query_params.get('level')
+        date_filter = self.request.query_params.get('date')
+        subject_filter = self.request.query_params.get('subject')
+
+        if level_filter and level_filter != "undefined":
+            queryset = queryset.filter(series__level__level__contains=level_filter)
+
+        if subject_filter and subject_filter != "undefined":
+            queryset = queryset.filter(series__subject__subject__icontains=subject_filter)
+
+        if date_filter and date_filter != "undefined":
+            year = int(date_filter)
+            start_date = f"{year}-01-01"
+            end_date = f"{year}-12-31"
+            queryset = queryset.filter(series__date__range=[start_date, end_date])
 
         return queryset
 
