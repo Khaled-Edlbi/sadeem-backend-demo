@@ -24,11 +24,24 @@ class BooksListAPIView(generics.ListAPIView):
     permission_classes = [AllowAny]
 
     def get_queryset(self):
-        queryset = Book.objects.all().order_by('-updated')
+        queryset = Book.objects.all()
+
+        sort_by = self.request.query_params.get('sortBy')
+        sort_type = self.request.query_params.get('sortType')
 
         level_filter = self.request.query_params.get('level')
         date_filter = self.request.query_params.get('date')
         subject_filter = self.request.query_params.get('subject')
+
+        if sort_by and sort_by != "undefined":
+            queryset = queryset.order_by(
+                ('-' if sort_type and sort_type != "undefined" and sort_type == 'Des' else '') + sort_by
+            )
+        else:
+            queryset = queryset.order_by('-updated')
+
+        if sort_type and level_filter != "undefined":
+            queryset = queryset.filter(series__level__level__contains=level_filter)
 
         if level_filter and level_filter != "undefined":
             queryset = queryset.filter(series__level__level__contains=level_filter)

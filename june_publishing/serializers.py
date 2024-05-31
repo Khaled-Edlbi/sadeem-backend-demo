@@ -49,7 +49,7 @@ class BookImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ['id', 'images', 'pdf_url']
+        fields = ['id', 'title', 'images', 'pdf_url']
 
 
 class BookSeriesSerializer(serializers.ModelSerializer):
@@ -68,20 +68,17 @@ class BookSeriesSerializer(serializers.ModelSerializer):
 
 
 class BookSeriesTitleSerializer(serializers.ModelSerializer):
+    level = LevelSerializer(read_only=True)
+    subject = SubjectSerializer(read_only=True)
+
     class Meta:
         model = BookSeries
-        fields = ['id', 'title', 'author', 'version', 'date', 'summary']
+        fields = ['id', 'title', 'level', 'subject', 'version', 'date', 'summary']
 
 
 class BookSerializer(serializers.ModelSerializer):
     series = BookSeriesTitleSerializer(read_only=True)
-
     images = ImageSerializer(many=True, read_only=True)
-
-    category = CategorySerializer(read_only=True)
-    level = LevelSerializer(read_only=True)
-    language = LanguageSerializer(read_only=True)
-    subject = SubjectSerializer(read_only=True)
 
     class Meta:
         model = Book

@@ -65,7 +65,6 @@ class BookSeries(models.Model):
     summary = models.TextField()
     views_num = models.IntegerField()
     downloads_num = models.IntegerField()
-
     series_materials = models.ManyToManyField(SeriesMaterial, related_name='book_series')
     features = ArrayField(models.CharField(), blank=True, default=list)
 
@@ -79,7 +78,6 @@ class BookSeries(models.Model):
 class Book(models.Model):
     series = models.ForeignKey(BookSeries, related_name='books', on_delete=models.CASCADE)
 
-    category = models.ForeignKey(Category, related_name='books', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     pdf_url = models.URLField(max_length=5000)
 
