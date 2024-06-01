@@ -41,7 +41,9 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8081',
     'https://sadeem-store-demo.vercel.app',
     'https://junepublishing.co.uk',
-    'https://www.junepublishing.co.uk'
+    'https://www.junepublishing.co.uk',
+    'https://june-publishing.co.uk',
+    'https://www.june-publishing.co.uk',
 ]
 
 
