@@ -1,8 +1,6 @@
-from rest_framework import generics, mixins
-from rest_framework.response import Response
+from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from rest_framework.pagination import PageNumberPagination
-from django.db.models import Q
 
 from .models import *
 from .serializers import *
@@ -58,17 +56,23 @@ class BooksListAPIView(generics.ListAPIView):
         return queryset
 
 
-class BookCreateAndUpdateAPIView(
-    mixins.CreateModelMixin,
-    mixins.UpdateModelMixin,
-    generics.GenericAPIView
-):
-    # permission_classes = [AllowAny]
+class BookRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [AllowAny]
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
 
-    def put(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+# class BookCreateAndUpdateAPIView(
+#     mixins.CreateModelMixin,
+#     mixins.UpdateModelMixin,
+#     generics.GenericAPIView
+# ):
+#     # permission_classes = [AllowAny]
+#     queryset = Book.objects.all()
+#     serializer_class = BookSerializer
+#
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)
+#
+#     def put(self, request, *args, **kwargs):
+#         return self.partial_update(request, *args, **kwargs)

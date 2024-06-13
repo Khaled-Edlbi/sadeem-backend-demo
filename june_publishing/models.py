@@ -2,24 +2,15 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
 
-class Category(models.Model):
-    category = models.CharField(max_length=20)
-
-    updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.category
-
-
 class Level(models.Model):
-    level = models.CharField(max_length=10)
+    ar = models.CharField(max_length=50, null=True)
+    en = models.CharField(max_length=50, null=True)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.level
+        return self.en
 
 
 class Language(models.Model):
@@ -33,23 +24,25 @@ class Language(models.Model):
 
 
 class Subject(models.Model):
-    subject = models.CharField(max_length=20)
+    ar = models.CharField(max_length=50, null=True)
+    en = models.CharField(max_length=50, null=True)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.subject
+        return self.en
 
 
 class SeriesMaterial(models.Model):
-    series_material = models.CharField(max_length=20)
+    ar = models.CharField(max_length=50, null=True)
+    en = models.CharField(max_length=50, null=True)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.series_material
+        return self.en
 
 
 class BookSeries(models.Model):
@@ -57,35 +50,48 @@ class BookSeries(models.Model):
     language = models.ForeignKey(Language, related_name='book_series', on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, related_name='book_series', on_delete=models.CASCADE)
 
-    title = models.CharField(max_length=100)
-    author = models.CharField(max_length=100)
-    version = models.CharField(max_length=10)
+    title_ar = models.CharField(max_length=100, null=True)
+    title_en = models.CharField(max_length=100, null=True)
+
+    author_ar = models.CharField(max_length=100, null=True)
+    author_en = models.CharField(max_length=100, null=True)
+
+    version_ar = models.CharField(max_length=20, null=True)
+    version_en = models.CharField(max_length=20, null=True)
+
+    summary_ar = models.TextField(null=True)
+    summary_en = models.TextField(null=True)
+
     date = models.DateField()
     pages_num = models.IntegerField()
-    summary = models.TextField()
     views_num = models.IntegerField()
     downloads_num = models.IntegerField()
+
     series_materials = models.ManyToManyField(SeriesMaterial, related_name='book_series')
-    features = ArrayField(models.CharField(), blank=True, default=list)
+
+    features_ar = ArrayField(models.CharField(), blank=True, default=list)
+    features_en = ArrayField(models.CharField(), blank=True, default=list)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.title_en
 
 
 class Book(models.Model):
     series = models.ForeignKey(BookSeries, related_name='books', on_delete=models.CASCADE)
 
-    title = models.CharField(max_length=100)
+    title_ar = models.CharField(max_length=100, null=True)
+    title_en = models.CharField(max_length=100, null=True)
+
     pdf_url = models.URLField(max_length=5000)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"id: {self.id} | {self.title}"
+        return f"id: {self.id} | {self.title_en}"
 
 
 class Banner(models.Model):

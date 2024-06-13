@@ -14,16 +14,10 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'image_url']
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ['id', 'category']
-
-
 class LevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Level
-        fields = ['id', 'level']
+        fields = ['id', 'ar', 'en']
 
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -35,13 +29,13 @@ class LanguageSerializer(serializers.ModelSerializer):
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ['id', 'subject']
+        fields = ['id', 'ar', 'en']
 
 
 class SeriesMaterialSerializer(serializers.ModelSerializer):
     class Meta:
         model = SeriesMaterial
-        fields = ['id', 'series_material']
+        fields = ['id', 'ar', 'en']
 
 
 class BookImageSerializer(serializers.ModelSerializer):
@@ -49,7 +43,7 @@ class BookImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ['id', 'title', 'images', 'pdf_url']
+        fields = ['id', 'title_ar', 'title_en', 'images', 'pdf_url']
 
 
 class BookSeriesSerializer(serializers.ModelSerializer):
@@ -73,7 +67,18 @@ class BookSeriesTitleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BookSeries
-        fields = ['id', 'title', 'level', 'subject', 'version', 'date', 'summary']
+        fields = [
+            'id',
+            'title_ar',
+            'title_en',
+            'level',
+            'subject',
+            'version_ar',
+            'version_en',
+            'date',
+            'summary_ar',
+            'summary_en'
+        ]
 
 
 class BookSerializer(serializers.ModelSerializer):
