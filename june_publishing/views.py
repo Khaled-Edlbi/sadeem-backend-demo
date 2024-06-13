@@ -38,14 +38,11 @@ class BooksListAPIView(generics.ListAPIView):
         else:
             queryset = queryset.order_by('-updated')
 
-        if sort_type and level_filter != "undefined":
-            queryset = queryset.filter(series__level__level__contains=level_filter)
-
         if level_filter and level_filter != "undefined":
-            queryset = queryset.filter(series__level__level__contains=level_filter)
+            queryset = queryset.filter(series__level__en__contains=level_filter)
 
         if subject_filter and subject_filter != "undefined":
-            queryset = queryset.filter(series__subject__subject__icontains=subject_filter)
+            queryset = queryset.filter(series__subject__en__icontains=subject_filter)
 
         if date_filter and date_filter != "undefined":
             year = int(date_filter)
