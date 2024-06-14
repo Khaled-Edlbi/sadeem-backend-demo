@@ -26,23 +26,22 @@ class BooksListAPIView(generics.ListAPIView):
 
         sort_by = self.request.query_params.get('sortBy')
         sort_type = self.request.query_params.get('sortType')
+        des_asc_sort = '' if (sort_type and sort_type != "undefined" and sort_type == 'Asc') else '-'
 
         level_filter = self.request.query_params.get('level')
-        date_filter = self.request.query_params.get('date')
         subject_filter = self.request.query_params.get('subject')
+        date_filter = self.request.query_params.get('date')
 
         if sort_by and sort_by != "undefined":
-            queryset = queryset.order_by(
-                ('-' if sort_type and sort_type != "undefined" and sort_type == 'Des' else '') + sort_by
-            )
+            queryset = queryset.order_by(des_asc_sort + sort_by)
         else:
-            queryset = queryset.order_by('-updated')
+            queryset = queryset.order_by(des_asc_sort + 'updated')
 
         if level_filter and level_filter != "undefined":
             queryset = queryset.filter(series__level__en__contains=level_filter)
 
         if subject_filter and subject_filter != "undefined":
-            queryset = queryset.filter(series__subject__en__icontains=subject_filter)
+            queryset = queryset.filter(series__subject__en__contains=subject_filter)
 
         if date_filter and date_filter != "undefined":
             year = int(date_filter)
